@@ -34,6 +34,10 @@ public class UserInternalService {
             throw new CustomInternalException(UserExceptionType.DUPLICATED_NICKNAME);
         }
 
+        if (userJpaRepository.existsByPhone(dto.phone())) {
+            throw new CustomInternalException(UserExceptionType.DUPLICATED_NICKNAME);
+        }
+
         User user = User.builder()
                 .email(dto.email())
                 .password(dto.password())
