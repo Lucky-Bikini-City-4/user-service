@@ -28,7 +28,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true, length = 10)
     private String nickname;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, unique = true, length = 15)
     private String phone;
 
     @Column(nullable = false, columnDefinition = "TINYINT")
@@ -36,7 +36,7 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    UserRole role;
+    private UserRole role;
 
     @Builder
     public User(String email, String password, String nickname, String phone, Integer age, UserRole role) {
