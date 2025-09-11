@@ -1,12 +1,14 @@
 package com.dayaeyak.user.domain.user;
 
 import com.dayaeyak.user.common.entity.BaseEntity;
+import com.dayaeyak.user.domain.user.dto.request.UserUpdateRequestDto;
 import com.dayaeyak.user.domain.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "users")
@@ -46,5 +48,15 @@ public class User extends BaseEntity {
         this.phone = phone;
         this.age = age;
         this.role = role;
+    }
+
+    public void update(UserUpdateRequestDto dto) {
+        updateNickname(dto.nickname());
+    }
+
+    private void updateNickname(String nickname) {
+        if (StringUtils.hasText(nickname)) {
+            this.nickname = nickname;
+        }
     }
 }
