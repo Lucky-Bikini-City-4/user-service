@@ -1,5 +1,6 @@
 package com.dayaeyak.user.domain.user;
 
+import com.dayaeyak.user.common.dto.Passport;
 import com.dayaeyak.user.common.exception.CustomRuntimeException;
 import com.dayaeyak.user.common.exception.type.UserExceptionType;
 import com.dayaeyak.user.domain.user.dto.request.UserUpdateRequestDto;
@@ -16,15 +17,15 @@ public class UserService {
 
     private final UserJpaRepository userJpaRepository;
 
-    public UserFindMyPageResponseDto findMyPage(Long userId) {
-        User user = findUserById(userId);
+    public UserFindMyPageResponseDto findMyPage(Passport passport) {
+        User user = findUserById(passport.userId());
 
         return UserFindMyPageResponseDto.from(user);
     }
 
     @Transactional
-    public UserUpdateResponseDto updateMyPage(UserUpdateRequestDto dto, Long userId) {
-        User user = findUserById(userId);
+    public UserUpdateResponseDto updateMyPage(UserUpdateRequestDto dto, Passport passport) {
+        User user = findUserById(passport.userId());
         user.update(dto);
 
         return UserUpdateResponseDto.from(user);
