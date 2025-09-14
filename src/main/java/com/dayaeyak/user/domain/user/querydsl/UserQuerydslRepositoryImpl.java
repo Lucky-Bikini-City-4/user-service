@@ -1,5 +1,6 @@
 package com.dayaeyak.user.domain.user.querydsl;
 
+import com.dayaeyak.user.domain.user.enums.SearchType;
 import com.dayaeyak.user.domain.user.enums.UserRole;
 import com.dayaeyak.user.domain.user.querydsl.dto.response.QUserSearchProjectionDto;
 import com.dayaeyak.user.domain.user.querydsl.dto.response.UserSearchProjectionDto;
@@ -30,14 +31,13 @@ public class UserQuerydslRepositoryImpl implements UserQuerydslRepository {
     public Page<UserSearchProjectionDto> searchPage(
             Pageable pageable,
             Long userId,
-            String email,
-            String nickname,
-            UserRole role
+            UserRole role,
+            String keyword,
+            SearchType searchType
     ) {
         Predicate[] whereClauses = {
                 eqUserId(userId),
-                eqEmail(email),
-                eqNickname(nickname),
+                eqSearchType(keyword, searchType),
                 eqRole(role)
         };
 
@@ -61,6 +61,10 @@ public class UserQuerydslRepositoryImpl implements UserQuerydslRepository {
                 .where(whereClauses);
 
         return PageableExecutionUtils.getPage(data, pageable, count::fetchOne);
+    }
+
+    private BooleanExpression eqSearchType(String keyword, SearchType searchType) {
+        return searchType != null ? searchType.getPath().contains(keyword) : null;
     }
 
     private BooleanExpression eqUserId(Long userId) {
