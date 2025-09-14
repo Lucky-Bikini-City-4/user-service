@@ -7,15 +7,8 @@ import com.dayaeyak.user.domain.user.dto.request.UserFindByEmailRequestDto;
 import com.dayaeyak.user.domain.user.dto.response.UserCreateResponseDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindByEmailResponseDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindByIdResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserSearchPageResponseDto;
-import com.dayaeyak.user.domain.user.enums.UserRole;
 import com.dayaeyak.user.domain.user.jpa.UserJpaRepository;
-import com.dayaeyak.user.domain.user.querydsl.UserQuerydslRepository;
-import com.dayaeyak.user.domain.user.querydsl.dto.response.UserSearchProjectionDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class UserInternalService {
 
     private final UserJpaRepository userJpaRepository;
-    private final UserQuerydslRepository userQuerydslRepository;
 
     public UserCreateResponseDto createUser(UserCreateRequestDto dto) {
         if (userJpaRepository.existsByEmail(dto.email())) {
@@ -62,22 +54,6 @@ public class UserInternalService {
         User user = findById(userId);
 
         return UserFindByIdResponseDto.from(user);
-    }
-
-    public UserSearchPageResponseDto searchUser(
-            int page,
-            int size,
-            Long userId,
-            String email,
-            String nickname,
-            UserRole role
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        Page<UserSearchProjectionDto> data
-                = userQuerydslRepository.searchPage(pageable, userId, email, nickname, role);
-
-        return UserSearchPageResponseDto.from(data);
     }
 
     private User findUserByEmail(String email) {
