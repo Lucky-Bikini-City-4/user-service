@@ -23,7 +23,7 @@ public class UserInternalController {
     }
 
     @PostMapping("/find-user")
-    public UserFindByEmailResponseDto findUser(
+    public UserFindByEmailResponseDto getUser(
             @RequestBody UserFindByEmailRequestDto userFindByEmailRequestDto
     ) {
         return userInternalService.findUserByEmail(userFindByEmailRequestDto);
