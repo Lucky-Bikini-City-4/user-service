@@ -6,7 +6,6 @@ import com.dayaeyak.user.domain.user.QUser;
 import com.querydsl.core.types.dsl.StringPath;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 
@@ -22,10 +21,6 @@ public enum SearchType {
     private final StringPath path;
 
     public static SearchType of(String type) {
-        if (StringUtils.hasText(type)) {
-            throw new CustomRuntimeException(UserExceptionType.INVALID_SEARCH_TYPE);
-        }
-
         return Arrays.stream(SearchType.values())
                 .filter(searchType -> searchType.type.equalsIgnoreCase(type))
                 .findFirst()
