@@ -1,6 +1,7 @@
 package com.dayaeyak.user.domain.user;
 
 import com.dayaeyak.user.common.entity.BaseEntity;
+import com.dayaeyak.user.domain.user.dto.request.UserAdminUpdateRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserUpdateRequestDto;
 import com.dayaeyak.user.domain.user.enums.UserRole;
 import jakarta.persistence.*;
@@ -54,9 +55,20 @@ public class User extends BaseEntity {
         updateNickname(dto.nickname());
     }
 
+    public void updateByAdmin(UserAdminUpdateRequestDto dto) {
+        updateNickname(dto.nickname());
+        updateUserRole(dto.role());
+    }
+
     private void updateNickname(String nickname) {
         if (StringUtils.hasText(nickname)) {
             this.nickname = nickname;
+        }
+    }
+
+    private void updateUserRole(UserRole role) {
+        if (role != null) {
+            this.role = role;
         }
     }
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 public record UserUpdateResponseDto(
@@ -22,10 +23,10 @@ public record UserUpdateResponseDto(
         UserRole role,
 
         @JsonFormat(pattern = "yy년 MM월 dd일 HH:mm")
-        LocalDate createdAt,
+        LocalDateTime createdAt,
 
         @JsonFormat(pattern = "yy년 MM월 dd일 HH:mm")
-        LocalDate updatedAt
+        LocalDateTime updatedAt
 ) {
 
     public static UserUpdateResponseDto from(User user) {
@@ -36,8 +37,8 @@ public record UserUpdateResponseDto(
                 .age(user.getAge())
                 .phone(user.getPhone())
                 .role(user.getRole())
-                .createdAt(user.getCreatedAt().toLocalDate())
-                .updatedAt(user.getUpdatedAt().toLocalDate())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }
