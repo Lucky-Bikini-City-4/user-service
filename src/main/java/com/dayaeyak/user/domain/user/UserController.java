@@ -1,7 +1,7 @@
 package com.dayaeyak.user.domain.user;
 
 import com.dayaeyak.user.common.annotation.PassportHolder;
-import com.dayaeyak.user.common.constraints.UserResponseMessage;
+import com.dayaeyak.user.common.constant.UserResponseMessage;
 import com.dayaeyak.user.common.dto.Passport;
 import com.dayaeyak.user.common.entity.ApiResponse;
 import com.dayaeyak.user.domain.user.dto.request.UserUpdateRequestDto;

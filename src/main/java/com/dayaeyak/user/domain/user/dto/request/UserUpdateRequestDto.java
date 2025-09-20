@@ -1,6 +1,6 @@
 package com.dayaeyak.user.domain.user.dto.request;
 
-import com.dayaeyak.user.common.constraints.UserValidationMessage;
+import com.dayaeyak.user.common.constant.UserValidationMessage;
 import jakarta.validation.constraints.NotBlank;
 
 public record UserUpdateRequestDto(

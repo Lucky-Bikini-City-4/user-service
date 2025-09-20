@@ -1,4 +1,4 @@
-package com.dayaeyak.user.common.constraints;
+package com.dayaeyak.user.common.constant;
 
 public class UserResponseMessage {
 
