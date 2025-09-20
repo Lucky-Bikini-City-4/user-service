@@ -19,6 +19,6 @@ public enum ProviderType {
         return Arrays.stream(ProviderType.values())
                 .filter(providerType -> providerType.name().equalsIgnoreCase(value))
                 .findFirst()
-                .orElseThrow(() -> new CustomInternalException(UserExceptionType.INVALID_ACCOUNT_TYPE));
+                .orElseThrow(() -> new CustomInternalException(UserExceptionType.INVALID_PROVIDER_TYPE));
     }
 }

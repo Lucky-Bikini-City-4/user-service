@@ -2,9 +2,11 @@ package com.dayaeyak.user.domain.user;
 
 import com.dayaeyak.user.domain.user.dto.request.UserCreateRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserFindByEmailRequestDto;
+import com.dayaeyak.user.domain.user.dto.request.UserSocialLoginRequestDto;
 import com.dayaeyak.user.domain.user.dto.response.UserCreateResponseDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindByEmailResponseDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindByIdResponseDto;
+import com.dayaeyak.user.domain.user.dto.response.UserSocialLoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,5 +36,12 @@ public class UserInternalController {
             @PathVariable Long userId
     ) {
         return userInternalService.findUserById(userId);
+    }
+
+    @PostMapping("/social-login")
+    public UserSocialLoginResponseDto socialLogin(
+        @RequestBody UserSocialLoginRequestDto userSocialLoginRequestDto
+    ) {
+        return userInternalService.socialLogin(userSocialLoginRequestDto);
     }
 }
