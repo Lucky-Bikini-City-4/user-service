@@ -1,6 +1,8 @@
 package com.dayaeyak.user.domain.user;
 
-import com.dayaeyak.user.common.constraints.UserResponseMessage;
+import com.dayaeyak.user.common.annotation.PassportHolder;
+import com.dayaeyak.user.common.constant.UserResponseMessage;
+import com.dayaeyak.user.common.dto.Passport;
 import com.dayaeyak.user.common.entity.ApiResponse;
 import com.dayaeyak.user.domain.user.dto.request.UserUpdateRequestDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindMyPageResponseDto;
@@ -20,20 +22,20 @@ public class UserController {
 
     @GetMapping("/my")
     public ResponseEntity<ApiResponse<UserFindMyPageResponseDto>> getMyPage(
-            @RequestHeader("X-User-Id") Long userId
+            @PassportHolder Passport passport
     ) {
-        UserFindMyPageResponseDto data = userService.findMyPage(userId);
+        UserFindMyPageResponseDto data = userService.findMyPage(passport);
 
-        return ApiResponse.success(HttpStatus.OK, UserResponseMessage.GET_MY_PAGE_SUCCESS, data);
+        return ApiResponse.success(HttpStatus.OK, UserResponseMessage.GET_MY_PAGE, data);
     }
 
     @PatchMapping("/my")
     public ResponseEntity<ApiResponse<UserUpdateResponseDto>> updateMyPage(
             @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto,
-            @RequestHeader("X-User-Id") Long userId
+            @PassportHolder Passport passport
     ) {
-        UserUpdateResponseDto data = userService.updateMyPage(userUpdateRequestDto, userId);
+        UserUpdateResponseDto data = userService.updateMyPage(userUpdateRequestDto, passport);
 
-        return ApiResponse.success(HttpStatus.OK, UserResponseMessage.UPDATE_MY_PAGE_SUCCESS, data);
+        return ApiResponse.success(HttpStatus.OK, UserResponseMessage.UPDATE_MY_PAGE, data);
     }
 }

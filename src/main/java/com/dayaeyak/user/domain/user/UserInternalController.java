@@ -2,14 +2,12 @@ package com.dayaeyak.user.domain.user;
 
 import com.dayaeyak.user.domain.user.dto.request.UserCreateRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserFindByEmailRequestDto;
+import com.dayaeyak.user.domain.user.dto.request.UserSocialLoginRequestDto;
 import com.dayaeyak.user.domain.user.dto.response.UserCreateResponseDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindByEmailResponseDto;
 import com.dayaeyak.user.domain.user.dto.response.UserFindByIdResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserSearchPageResponseDto;
-import com.dayaeyak.user.domain.user.enums.UserRole;
+import com.dayaeyak.user.domain.user.dto.response.UserSocialLoginResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +25,7 @@ public class UserInternalController {
     }
 
     @PostMapping("/find-user")
-    public UserFindByEmailResponseDto findUser(
+    public UserFindByEmailResponseDto getUser(
             @RequestBody UserFindByEmailRequestDto userFindByEmailRequestDto
     ) {
         return userInternalService.findUserByEmail(userFindByEmailRequestDto);
@@ -40,15 +38,10 @@ public class UserInternalController {
         return userInternalService.findUserById(userId);
     }
 
-    @GetMapping
-    public UserSearchPageResponseDto searchUser(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) Long userId,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String nickname,
-            @RequestParam(required = false) UserRole role
+    @PostMapping("/social-login")
+    public UserSocialLoginResponseDto socialLogin(
+        @RequestBody UserSocialLoginRequestDto userSocialLoginRequestDto
     ) {
-        return userInternalService.searchUser(page, size, userId, email, nickname, role);
+        return userInternalService.socialLogin(userSocialLoginRequestDto);
     }
 }
