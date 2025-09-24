@@ -5,14 +5,13 @@ import com.dayaeyak.user.common.exception.type.UserExceptionType;
 import com.dayaeyak.user.domain.user.dto.request.UserCreateRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserFindByEmailRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserSocialLoginRequestDto;
-import com.dayaeyak.user.domain.user.dto.response.UserCreateResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserFindByEmailResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserFindByIdResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserSocialLoginResponseDto;
+import com.dayaeyak.user.domain.user.dto.request.UserSocialSignupRequestDto;
+import com.dayaeyak.user.domain.user.dto.response.*;
 import com.dayaeyak.user.domain.user.jpa.UserJpaRepository;
 import com.dayaeyak.user.domain.user.jpa.UserSocialJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -82,6 +81,33 @@ public class UserInternalService {
 
         // 로그인 완료
         return UserSocialLoginResponseDto.success(user.getId(), user.getRole());
+    }
+
+    @Transactional
+    public UserSocialSignupResponseDto socialSignup(UserSocialSignupRequestDto dto) {
+        if (userJpaRepository.existsByNickname(dto.nickname())) {
+            throw new CustomInternalException(UserExceptionType.DUPLICATED_NICKNAME);
+        }
+
+        if (userJpaRepository.existsByPhone(dto.phone())) {
+            throw new CustomInternalException(UserExceptionType.DUPLICATED_PHONE);
+        }
+
+        User user = User.builder()
+                .email(dto.providerEmail())
+                .nickname(dto.nickname())
+                .phone(dto.phone())
+                .age(dto.age())
+                .role(dto.role())
+                .build();
+
+        User savedUser = userJpaRepository.save(user);
+
+        UserSocial userSocial = new UserSocial(user, dto.providerType(), dto.providerId());
+
+        userSocialJpaRepository.save(userSocial);
+
+        return UserSocialSignupResponseDto.from(savedUser);
     }
 
     private void connectSocialWithUser(User user, UserSocialLoginRequestDto dto) {
