@@ -63,23 +63,6 @@ public class UserQuerydslRepositoryImpl implements UserQuerydslRepository {
         return PageableExecutionUtils.getPage(data, pageable, count::fetchOne);
     }
 
-    @Override
-    public boolean existsByEmail(String email) {
-//        queryFactory.select()
-
-        return false;
-    }
-
-    @Override
-    public boolean existsByNickname(String nickname) {
-        return false;
-    }
-
-    @Override
-    public boolean existsByPhone(String phone) {
-        return false;
-    }
-
     private BooleanExpression eqSearchType(String keyword, SearchType searchType) {
         return searchType != null ? searchType.getPath().contains(keyword) : null;
     }
