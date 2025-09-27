@@ -3,10 +3,8 @@ package com.dayaeyak.user.domain.user;
 import com.dayaeyak.user.domain.user.dto.request.UserCreateRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserFindByEmailRequestDto;
 import com.dayaeyak.user.domain.user.dto.request.UserSocialLoginRequestDto;
-import com.dayaeyak.user.domain.user.dto.response.UserCreateResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserFindByEmailResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserFindByIdResponseDto;
-import com.dayaeyak.user.domain.user.dto.response.UserSocialLoginResponseDto;
+import com.dayaeyak.user.domain.user.dto.request.UserSocialSignupRequestDto;
+import com.dayaeyak.user.domain.user.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +41,12 @@ public class UserInternalController {
         @RequestBody UserSocialLoginRequestDto userSocialLoginRequestDto
     ) {
         return userInternalService.socialLogin(userSocialLoginRequestDto);
+    }
+
+    @PostMapping("/social-join")
+    public UserSocialSignupResponseDto socialSignup(
+            @RequestBody UserSocialSignupRequestDto userSocialSignupRequestDto
+    ) {
+        return userInternalService.socialSignup(userSocialSignupRequestDto);
     }
 }
