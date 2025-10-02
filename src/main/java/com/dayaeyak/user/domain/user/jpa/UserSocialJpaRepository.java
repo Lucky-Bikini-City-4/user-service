@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserSocialJpaRepository extends JpaRepository<UserSocial, Long> {
 
-    boolean existsByUserAndProviderTypeAndProviderId(User user, ProviderType providerType, String providerId);
+    boolean existsByUserAndProviderTypeAndProviderIdAndDeletedAtIsNull(User user, ProviderType providerType, String providerId);
 }

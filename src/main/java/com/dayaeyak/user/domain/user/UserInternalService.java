@@ -23,15 +23,15 @@ public class UserInternalService {
     private final UserSocialJpaRepository userSocialJpaRepository;
 
     public UserCreateResponseDto createUser(UserCreateRequestDto dto) {
-        if (userJpaRepository.existsByEmail(dto.email())) {
+        if (userJpaRepository.existsByEmailAndDeletedAtIsNull(dto.email())) {
             throw new CustomInternalException(UserExceptionType.DUPLICATED_EMAIL);
         }
 
-        if (userJpaRepository.existsByNickname(dto.nickname())) {
+        if (userJpaRepository.existsByNicknameAndDeletedAtIsNull(dto.nickname())) {
             throw new CustomInternalException(UserExceptionType.DUPLICATED_NICKNAME);
         }
 
-        if (userJpaRepository.existsByPhone(dto.phone())) {
+        if (userJpaRepository.existsByPhoneAndDeletedAtIsNull(dto.phone())) {
             throw new CustomInternalException(UserExceptionType.DUPLICATED_PHONE);
         }
 
@@ -75,7 +75,7 @@ public class UserInternalService {
         User user = optionalUser.get();
 
         // 만약 소셜 정보가 없다면 새로 등록
-        if (!userSocialJpaRepository.existsByUserAndProviderTypeAndProviderId(user, dto.providerType(), dto.providerId())) {
+        if (!userSocialJpaRepository.existsByUserAndProviderTypeAndProviderIdAndDeletedAtIsNull(user, dto.providerType(), dto.providerId())) {
             connectSocialWithUser(user, dto);
         }
 
@@ -85,11 +85,11 @@ public class UserInternalService {
 
     @Transactional
     public UserSocialSignupResponseDto socialSignup(UserSocialSignupRequestDto dto) {
-        if (userJpaRepository.existsByNickname(dto.nickname())) {
+        if (userJpaRepository.existsByNicknameAndDeletedAtIsNull(dto.nickname())) {
             throw new CustomInternalException(UserExceptionType.DUPLICATED_NICKNAME);
         }
 
-        if (userJpaRepository.existsByPhone(dto.phone())) {
+        if (userJpaRepository.existsByPhoneAndDeletedAtIsNull(dto.phone())) {
             throw new CustomInternalException(UserExceptionType.DUPLICATED_PHONE);
         }
 
